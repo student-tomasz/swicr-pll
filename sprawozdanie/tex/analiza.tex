@@ -1,0 +1,48 @@
+\section{Analiza działania}
+
+\subsection{Czas synchronizacji układu PLL}
+Zaimplementowany układ PLL synchronizuje się z sygnałem $f_5 = \unit[250]{Hz}$ i
+$\varphi_5 = 30\degree$ w czasie krótszym niż $\unit[0,042]{s}$. Jest to sygnał
+docelowy podany w treści zadania projektowego z sekcji \ref{sec:zadanie}. Wykres
+obrazujący proces synchronizacji jest generowany w MATLABie przez scope o nazwie
+\emph{Scope for target and PLL output signals}. Scope wyświetla trzy sygnały:
+\begin{itemize}[nosep]
+    \item yellow -- sygnał docelowy z zadania,
+    \item magenta -- sygnał wyjściowy układu PLL,
+    \item cyan -- sygnał referencyjny.
+\end{itemize}
+
+\noindent
+Parametry operacyjne podzespołów układu zostały dobrane tak, by
+uzyskać jak najszybszą synchronizację dla sygnału o fazie $\varphi_5 =
+30\degree$. Zmiana przesunięcia fazy $\varphi_5$ powoduje zmianę czasu
+synchronizacji, który jest niekoniecznie optymalny.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{cc}
+        \toprule
+        \textbf{Wartość $\varphi_5$ [$\unit{\degree}$]} & \textbf{Przybliżony czas synchronizacji [$\unit{s}$]} \\
+        \midrule
+        $5$   & $0,033$ \\
+        $10$  & $0,035$ \\
+        $15$  & $0,038$ \\
+        $30$  & $0,042$ \\
+        $45$  & $0,046$ \\
+        $60$  & $0,050$ \\
+        $90$  & $0,064$ \\
+        $120$ & $0,084$ \\
+        $180$ & $0,148$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{Przedstawienie zależności czasu synchronizacji od przesunięcia fazowego sygnału docelowego.}
+    \label{tab:analiza_czasy}
+\end{table}
+
+\subsection{Stabilność układu PLL}
+Układ jest stabilny dla dobranych parametrów operacyjnych podzespołów opisanych
+w sekcji \ref{sec:wykonanie}. Wartości te zostały dobrane specyficznie dla
+przypadku z zadania projektowego. Zwiększenie współczynnika członu
+integracyjnego kontrolera PI szybko prowadzi do utraty stabilności całego
+układu. Obniżenie częstotliwości odcięcia filtru dolnoprzepustowego ma
+identyczny efekt. Dobrane przez nas parametry operacyjne podzespołów są unikalne
+dla częstotliwości sygnału, do którego układ PLL ma się synchronizować.

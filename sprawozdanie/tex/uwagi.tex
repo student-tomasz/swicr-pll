@@ -1,0 +1,39 @@
+\section{Uwagi}
+Oba modele układów PLL załączone do sprawozdania zostały zrealizowane z
+sukcesem. Oba działają identycznie. Oba wykazują się tym samym błędem po
+osiągnięciu synchronizacji. Sygnał generowany przez układ PLL jest przesunięty w
+fazie o jeden krok próbkowania do przodu względem sygnału docelowego.
+
+Nie jesteśmy pewni źródła tego błędu. Pomimo licznych prób nie udało nam się go
+wyeliminować. Zakładamy, że jest to dowolna kombinacja poniższych elementów:
+
+\subsection{Dokładność kontrolera PI}
+\label{sec:uwagi_pi}
+Sądzimy, że sygnał wyjściowy kontrolera PI zbiega do nieznacznie większej
+wartości niż powinien. Niestety, pomimo licznych prób nie udało nam się dobrać
+parametrów dla kontrolera, które niwelowały błąd --- sekcja \ref{sec:pi}.
+
+\subsection{Dokładność generatora sygnału referencyjnego}
+Dokładność wartości sygnału referencyjnego ma krytyczne znaczenie dla uzyskania
+synchronizacji. Pomimo, wydawałoby się, trywialnej i niezawodnej implementacji
+generatora (sekcja \ref{sec:generator}) możliwe jest, że przy aktualnej
+kombinacji częstliwości próbkowania $f_{smp} = \unit[10]{kHz}$ i częstotliwości
+sygnału referencyjnego $f_{target} = \unit[0.25]{kHz}$ odchodzimy od właściwej
+wartości w sąsiedztwie wartości brzegowych $0$ lub $2\pi$.
+
+\subsection{Dokładność filtru dolnoprzepustowego}
+Przy aktualnie dobranych parametrach, częstotliwość odcięcia na filtrze wynosi
+$f_{cut} = \unit[0,025]{kHz}$. Idealnie byłoby ustalić jeszcze niższą
+częstotliwość odcięcia rzędu $\unit[0,001]{kHz}$. Jednak dla narzuconych
+parametrów filtru to jest model Butterwortha, rzędu 4. i częstotliwości
+próbkowania $f_{smp} = \unit[10]{kHz}$ ustalenie $f_{cut}$ poniżej wartości
+$\unit[0,020]{kHz}$ prowadzi do utraty stabilności filtru, a przez to całego
+układu. W efekcie jesteśmy zmuszeni ustalić częstotliwość odcięcia na poziomie
+$f_{cut} = \unit[0,025]{kHz}$.
+
+W efekcie wartość sygnału wychodzącego z filtru po początkowej
+korygacji może być wciąż zbyt wysoka. Idea działania naszego detektora fazy,
+zakłada, że filtr dolnoprzepustowy odcina wszystkie sygnały poza sygnałami o
+częstotliwościach bliskich $\unit[0]{Hz}$. Poprzez ograniczenie na $f_{cut}$
+łamiemy to założenie. Sukcesywnie może to powodować błąd w wartości sygnału
+wychodzącego z kontrolera PI, opisany w~\ref{sec:uwagi_pi}.

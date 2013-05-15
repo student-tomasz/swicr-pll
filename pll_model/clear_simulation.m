@@ -1,0 +1,2 @@
+clear mex
+clear all
